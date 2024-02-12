@@ -13,7 +13,7 @@ export default function SearchRepositories() {
   const [error, setError] = useState(null);
   const [trackedPackages, setTrackedPackages] = useState({});
   const [clickedRepos, setClickedRepos] = useState([]);
-
+  const [state, setState] = useState(0);
   const handlePkgImport = async (repoUrl, name) => {
     try {
       if (checkRepo(name)) {
@@ -66,6 +66,7 @@ export default function SearchRepositories() {
       setError(error);
     } finally {
       setIsLoading(false);
+      setState((prev) => prev + 1);
     }
   };
 
@@ -122,7 +123,7 @@ export default function SearchRepositories() {
           ))}
         </ul>
       ) : (
-        keyword && <p className='text-gray-500 text-center mt-4'>No repositories found for "{keyword}".</p>
+        state > 0 && keyword && <p className='text-gray-500 text-center mt-4'>No repositories found for "{keyword}".</p>
       )}
     </div>
   );
